@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { TodoItem } from "./components/TodoItem";
 import { ITodo } from "./types";
+import styled from "styled-components";
 
 function App() {
   const [inputText, setInputText] = useState<string>("");
