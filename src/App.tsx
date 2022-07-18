@@ -35,17 +35,21 @@ function App() {
           value={inputText}
         />
         <button onClick={() => addToDo()}>Add to do</button>
-        {todos.map((e, i) => (
-          <TodoItem
-            completed={e.completed}
-            id={e.id}
-            key={i}
-            text={e.name}
-            setTodos={setTodos}
-            todos={todos}
-            favorite={e.favorite}
-          />
-        ))}
+        {todos
+          .sort((x, y) => Number(y.favorite) - Number(x.favorite))
+          .map((todo) => {
+            return (
+              <TodoItem
+                completed={todo.completed}
+                id={todo.id}
+                key={todo.id}
+                text={todo.name}
+                setTodos={setTodos}
+                todos={todos}
+                favorite={todo.favorite}
+              />
+            );
+          })}
       </div>
     </div>
   );

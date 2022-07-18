@@ -22,14 +22,11 @@ export const TodoItem: React.FC<TodoItemProps> = ({
   todos,
   favorite,
 }) => {
-  useEffect(() => {
-    setTodos(todos.sort((x, y) => Number(y.favorite) - Number(x.favorite)));
-  }, [todos]);
-
   // Delete an item function
   const deleteHandler = () => {
     setTodos(todos.filter((e) => e.id !== id));
   };
+
   // Set a todo like a completed one
   const completeHandler = () => {
     setTodos(
@@ -44,6 +41,7 @@ export const TodoItem: React.FC<TodoItemProps> = ({
       })
     );
   };
+
   //Add to favorite function
   const favoriteHandler = () => {
     setTodos(
@@ -57,7 +55,6 @@ export const TodoItem: React.FC<TodoItemProps> = ({
         return e;
       })
     );
-    // Sort array of objects with favorite true were first
   };
 
   return (
