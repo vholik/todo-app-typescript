@@ -1,45 +1,86 @@
 import React, { useState, useEffect } from "react";
 import { TodoItem } from "./components/TodoItem";
-import { ITodo } from "./types";
-import styled from "styled-components";
+import { ITodo, IPriority, IPriorities } from "./types";
+import { AppWrapper } from "./style";
 
 function App() {
   const [inputText, setInputText] = useState<string>("");
-  const [todos, setTodos] = useState<ITodo[]>([]);
-
-  useEffect(() => {
-    setTodos(todos);
+  const [todos, setTodos] = useState<IPriority>({
+    high: [],
+    medium: [],
+    no: [],
+    habit: [],
   });
+  const [priorityStatus, setPriorityStatus] = useState<IPriorities>(
+    IPriorities.High
+  );
+
+  //Priority function
+  const priorityHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    if (e.target.value === "High") {
+      setPriorityStatus(IPriorities.High);
+    } else if (e.target.value === "Medium") {
+      setPriorityStatus(IPriorities.Medium);
+    } else if (e.target.value === "No") {
+      setPriorityStatus(IPriorities.No);
+    } else if (e.target.value === "Habit") {
+      setPriorityStatus(IPriorities.Habit);
+    }
+  };
   // Add to do function
   const addToDo = () => {
     if (inputText) {
-      setTodos([
+      setTodos({
         ...todos,
-        {
-          name: inputText,
-          id: Math.random(),
-          completed: false,
-          favorite: false,
-        },
-      ]);
+        [priorityStatus]: [
+          ...todos[priorityStatus],
+          {
+            name: inputText,
+            id: Math.random(),
+            completed: false,
+            favorite: false,
+            priority: priorityStatus,
+          },
+        ],
+      });
       setInputText("");
     }
   };
-
+  // Envoke addTodo function on enter
+  window.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+      addToDo();
+    }
+  });
   return (
-    <div className="App">
+    <AppWrapper>
+      {/* {todos.length === 0 && <h1 className="no-todos">Nothing to do :(</h1>} */}
       <div className="container">
-        <input
-          type="text"
-          onChange={(e) => setInputText(e.target.value)}
-          value={inputText}
-        />
-        <button onClick={() => addToDo()}>Add to do</button>
-        {todos
+        <h2>🚀 Viktor's Organizer</h2>
+        <div className="input-wrapper">
+          <input
+            type="text"
+            onChange={(e) => setInputText(e.target.value)}
+            value={inputText}
+            placeholder="+Add task to do. Press Enter to save."
+          />
+          <select
+            name="priority-select"
+            id="priority-select"
+            onChange={(e) => priorityHandler(e)}
+          >
+            <option value="High">High priority</option>
+            <option value="Medium">Medium priority</option>
+            <option value="No">No priority</option>
+            <option value="Habit">Habit</option>
+          </select>
+        </div>
+        {todos.no
           .sort((x, y) => Number(y.favorite) - Number(x.favorite))
           .map((todo) => {
             return (
               <TodoItem
+                priority={todo.priority}
                 completed={todo.completed}
                 id={todo.id}
                 key={todo.id}
@@ -51,7 +92,7 @@ function App() {
             );
           })}
       </div>
-    </div>
+    </AppWrapper>
   );
 }
 
