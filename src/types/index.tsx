@@ -1,8 +1,8 @@
 export enum IPriorities {
-  High = "high",
-  Medium = "medium",
-  No = "no",
-  Habit = "habit",
+  high = "high",
+  medium = "medium",
+  no = "no",
+  habit = "habit",
 }
 
 export type Priority = "high" | "medium" | "no" | "habit";

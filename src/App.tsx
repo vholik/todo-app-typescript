@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { TodoItem } from "./components/TodoItem";
-import { ITodo, IPriority, IPriorities } from "./types";
+import { ITodo, IPriority, IPriorities, Priority } from "./types";
 import { AppWrapper } from "./style";
 
 function App() {
@@ -12,20 +12,11 @@ function App() {
     habit: [],
   });
   const [priorityStatus, setPriorityStatus] = useState<IPriorities>(
-    IPriorities.High
+    IPriorities.high
   );
-
-  //Priority function
+  // Priority function
   const priorityHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    if (e.target.value === "High") {
-      setPriorityStatus(IPriorities.High);
-    } else if (e.target.value === "Medium") {
-      setPriorityStatus(IPriorities.Medium);
-    } else if (e.target.value === "No") {
-      setPriorityStatus(IPriorities.No);
-    } else if (e.target.value === "Habit") {
-      setPriorityStatus(IPriorities.Habit);
-    }
+    setPriorityStatus(IPriorities[e.target.value as Priority]);
   };
   // Add to do function
   const addToDo = () => {
@@ -69,13 +60,69 @@ function App() {
             id="priority-select"
             onChange={(e) => priorityHandler(e)}
           >
-            <option value="High">High priority</option>
-            <option value="Medium">Medium priority</option>
-            <option value="No">No priority</option>
-            <option value="Habit">Habit</option>
+            <option value="high">High priority</option>
+            <option value="medium">Medium priority</option>
+            <option value="no">No priority</option>
+            <option value="habit">Habit</option>
           </select>
         </div>
+        {/* High priorities */}
+        {todos.high.length !== 0 && <h3>High priorities</h3>}
+        {todos.high
+          .sort((x, y) => Number(y.favorite) - Number(x.favorite))
+          .map((todo) => {
+            return (
+              <TodoItem
+                priority={todo.priority}
+                completed={todo.completed}
+                id={todo.id}
+                key={todo.id}
+                text={todo.name}
+                setTodos={setTodos}
+                todos={todos}
+                favorite={todo.favorite}
+              />
+            );
+          })}
+        {/* Medium priorities */}
+        {todos.medium.length !== 0 && <h3>Medium priorities</h3>}
+        {todos.medium
+          .sort((x, y) => Number(y.favorite) - Number(x.favorite))
+          .map((todo) => {
+            return (
+              <TodoItem
+                priority={todo.priority}
+                completed={todo.completed}
+                id={todo.id}
+                key={todo.id}
+                text={todo.name}
+                setTodos={setTodos}
+                todos={todos}
+                favorite={todo.favorite}
+              />
+            );
+          })}
+        {/* No priorities */}
+        {todos.no.length !== 0 && <h3>No priorities</h3>}
         {todos.no
+          .sort((x, y) => Number(y.favorite) - Number(x.favorite))
+          .map((todo) => {
+            return (
+              <TodoItem
+                priority={todo.priority}
+                completed={todo.completed}
+                id={todo.id}
+                key={todo.id}
+                text={todo.name}
+                setTodos={setTodos}
+                todos={todos}
+                favorite={todo.favorite}
+              />
+            );
+          })}
+        {/* Habit priorities */}
+        {todos.habit.length !== 0 && <h3>Habits</h3>}
+        {todos.habit
           .sort((x, y) => Number(y.favorite) - Number(x.favorite))
           .map((todo) => {
             return (

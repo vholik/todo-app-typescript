@@ -46,7 +46,6 @@ export const TodoItem: React.FC<TodoItemProps> = ({
       }),
     });
   };
-
   //Add to favorite function
   const favoriteHandler = () => {
     setTodos({
@@ -62,7 +61,6 @@ export const TodoItem: React.FC<TodoItemProps> = ({
       }),
     });
   };
-
   return (
     <TodoItemStyle>
       <div className="leftside-wrapper">

@@ -6,7 +6,7 @@ export const TodoItemStyle = styled.div`
   width: 100%;
   justify-content: space-between;
   background-color: white;
-  padding: 5px 15px;
+  padding: 5px 0;
   border-radius: 10px;
   margin-top: 16px;
   font-weight: 500;
