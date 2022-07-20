@@ -1,20 +1,26 @@
 import styled from "styled-components";
 
+export const SidebarStyle = styled.div`
+  /* position: absolute; */
+`;
 export const TodoItemStyle = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
   justify-content: space-between;
   background-color: white;
-  padding: 5px 0;
   border-radius: 10px;
   margin-top: 16px;
   font-weight: 500;
   color: var(--primary);
+
+  input {
+    border: 2px solid red;
+  }
   h1 {
     margin: 0;
     padding: 0;
-    font-size: 21px;
+    font-size: 18px;
     font-weight: normal;
     font-family: "Inter", sans-serif;
   }
@@ -32,6 +38,12 @@ export const TodoItemStyle = styled.div`
   }
   .button-wrapper {
     display: flex;
+    align-items: center;
+    .date {
+      margin-right: 16px;
+      font-size: 14px;
+      color: #536fdf;
+    }
   }
 `;
 
@@ -48,12 +60,26 @@ export const AppWrapper = styled.div`
     font-weight: 600;
   }
   h2 {
-    font-size: 28px;
+    font-size: 24px;
     font-weight: 700;
+    color: var(--primary);
+    display: none;
   }
   .input-wrapper {
     width: 100%;
     position: relative;
+    .date-input {
+      position: absolute;
+      border-radius: 6px;
+      top: 12px;
+      right: 192.5px;
+      outline: none;
+      border: none;
+      background-color: rgba(0, 0, 0, 0.03);
+      padding: 12px 12px;
+      font-size: 16px;
+      color: rgba(0, 0, 0, 0.6);
+    }
     #priority-select {
       position: absolute;
       border-radius: 6px;
@@ -66,7 +92,7 @@ export const AppWrapper = styled.div`
       font-size: 16px;
       color: rgba(0, 0, 0, 0.6);
     }
-    input {
+    .todo-input {
       font-size: 18px;
       width: 100%;
       outline: none;
@@ -82,5 +108,26 @@ export const AppWrapper = styled.div`
   .todo-add-btn {
     border-radius: 2px;
     font-size: 18px;
+  }
+  .priority-header {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    margin-top: 25px;
+    h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--primary);
+      margin: 0px;
+    }
+    .priority-count {
+      margin: 0 0 0 8px;
+      font-size: 14px;
+      color: rgba(0, 0, 0, 0.6);
+    }
+  }
+  .chevron {
+    margin-right: 8px;
+    opacity: 0.6;
   }
 `;

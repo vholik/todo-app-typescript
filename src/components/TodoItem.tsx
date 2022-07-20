@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { ITodo, IPriority, Priority } from "../types";
 import DeleteIcon from "../img/delete.svg";
 import FavoriteIcon from "../img/favorite.svg";
@@ -13,6 +13,7 @@ interface TodoItemProps {
   setTodos: React.Dispatch<React.SetStateAction<IPriority>>;
   todos: IPriority;
   priority: string;
+  date: string;
 }
 
 export const TodoItem: React.FC<TodoItemProps> = ({
@@ -23,6 +24,7 @@ export const TodoItem: React.FC<TodoItemProps> = ({
   todos,
   favorite,
   priority,
+  date,
 }) => {
   // Delete an item function
   const deleteHandler = () => {
@@ -61,6 +63,16 @@ export const TodoItem: React.FC<TodoItemProps> = ({
       }),
     });
   };
+  // Set date to show
+  const showDate = () => {
+    if (Number(date) === 0) {
+      return "Today";
+    } else if (Number(date) === 1) {
+      return "Tomorrow";
+    } else {
+      return date + " days";
+    }
+  };
   return (
     <TodoItemStyle>
       <div className="leftside-wrapper">
@@ -74,7 +86,9 @@ export const TodoItem: React.FC<TodoItemProps> = ({
           {text}
         </h1>
       </div>
+
       <div className="button-wrapper">
+        <p className="date">{showDate()}</p>
         {completed && (
           <div className="delete-button" onClick={() => deleteHandler()}>
             <img src={DeleteIcon} alt="Delete" />

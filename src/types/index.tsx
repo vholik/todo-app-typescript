@@ -13,6 +13,7 @@ export interface ITodo {
   favorite: boolean;
   completed: boolean;
   priority: Priority;
+  date: string;
 }
 
 export interface IPriority {
@@ -20,4 +21,8 @@ export interface IPriority {
   medium: ITodo[];
   no: ITodo[];
   habit: ITodo[];
+}
+
+export interface ITodosShowing {
+  [key: string]: boolean;
 }
