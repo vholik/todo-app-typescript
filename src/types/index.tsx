@@ -26,3 +26,10 @@ export interface IPriority {
 export interface ITodosShowing {
   [key: string]: boolean;
 }
+
+// Current day
+let today = new Date();
+let dd = String(today.getDate()).padStart(2, "0");
+var mm = String(today.getMonth() + 1).padStart(2, "0");
+export let yyyy = today.getFullYear();
+export let currentDay: string = yyyy + "-" + mm + "-" + dd;

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { ITodo, IPriority, Priority } from "../types";
-import DeleteIcon from "../img/delete.svg";
+import { ITodo, IPriority, Priority, currentDay } from "../types";
+import DeleteIcon from "../img/Trash.svg";
 import FavoriteIcon from "../img/favorite.svg";
 import FavoriteFilledIcon from "../img/favorite-filled.svg";
 import { TodoItemStyle } from "../style";
+import moment from "moment";
 
 interface TodoItemProps {
   text: string;
@@ -63,16 +64,23 @@ export const TodoItem: React.FC<TodoItemProps> = ({
       }),
     });
   };
+  // Days left to do
+  const daysLeft = (): number => {
+    let start = moment(currentDay);
+    let end = moment(date);
+    return end.diff(start, "days");
+  };
   // Set date to show
   const showDate = () => {
-    if (Number(date) === 0) {
+    if (daysLeft() === 0) {
       return "Today";
-    } else if (Number(date) === 1) {
+    } else if (daysLeft() === 1) {
       return "Tomorrow";
     } else {
-      return date + " days";
+      return daysLeft() + " days";
     }
   };
+
   return (
     <TodoItemStyle>
       <div className="leftside-wrapper">
@@ -88,7 +96,7 @@ export const TodoItem: React.FC<TodoItemProps> = ({
       </div>
 
       <div className="button-wrapper">
-        <p className="date">{showDate()}</p>
+        {date === "" ? null : <p className="date">{showDate()}</p>}
         {completed && (
           <div className="delete-button" onClick={() => deleteHandler()}>
             <img src={DeleteIcon} alt="Delete" />
