@@ -23,6 +23,9 @@ function App() {
     no: [],
     habit: [],
   });
+  const [completedTodos, setCompletedTodos] = useState<ITodo[]>([]);
+  const [favoriteTodos, setFavoriteTodos] = useState<ITodo[]>([]);
+  const [deletedTodos, setDeletedTodos] = useState<ITodo[]>([]);
   const [isTodosShowing, setIsTodosShowing] = useState<ITodosShowing>({
     high: true,
     medium: true,
@@ -72,7 +75,12 @@ function App() {
   };
   return (
     <>
-      <Sidebar />
+      <Sidebar
+        todos={todos}
+        completedTodos={completedTodos}
+        favoriteTodos={favoriteTodos}
+        deletedTodos={deletedTodos}
+      />
       <AppWrapper>
         <div className="container">
           <h2>🚀 Viktor's Organizer</h2>
@@ -142,6 +150,13 @@ function App() {
                       .map((todo) => {
                         return (
                           <TodoItem
+                            deletedTodos={deletedTodos}
+                            setDeletedTodos={setDeletedTodos}
+                            favoriteTodos={favoriteTodos}
+                            setFavoriteTodos={setFavoriteTodos}
+                            todoItem={todo}
+                            completedTodos={completedTodos}
+                            setCompletedTodos={setCompletedTodos}
                             priority={todo.priority}
                             completed={todo.completed}
                             id={todo.id}

@@ -1,21 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { ITodo, IPriority, Priority, currentDay } from "../types";
+import { Priority, currentDay, TodoItemProps } from "../types";
 import DeleteIcon from "../img/Trash.svg";
 import FavoriteIcon from "../img/favorite.svg";
 import FavoriteFilledIcon from "../img/favorite-filled.svg";
 import { TodoItemStyle } from "../style";
 import moment from "moment";
-
-interface TodoItemProps {
-  text: string;
-  id: number;
-  completed: boolean;
-  favorite: boolean;
-  setTodos: React.Dispatch<React.SetStateAction<IPriority>>;
-  todos: IPriority;
-  priority: string;
-  date: string;
-}
 
 export const TodoItem: React.FC<TodoItemProps> = ({
   text,
@@ -26,9 +15,19 @@ export const TodoItem: React.FC<TodoItemProps> = ({
   favorite,
   priority,
   date,
+  completedTodos,
+  setCompletedTodos,
+  todoItem,
+  favoriteTodos,
+  setFavoriteTodos,
+  deletedTodos,
+  setDeletedTodos,
 }) => {
   // Delete an item function
   const deleteHandler = () => {
+    setCompletedTodos(completedTodos.filter((todo) => todo.id !== id));
+    setFavoriteTodos(favoriteTodos.filter((todo) => todo.id !== id));
+    setDeletedTodos([...deletedTodos, todoItem]);
     setTodos({
       ...todos,
       [priority]: todos[priority as Priority].filter((todo) => todo.id !== id),
@@ -36,13 +35,20 @@ export const TodoItem: React.FC<TodoItemProps> = ({
   };
   // Set a todo like a completed one
   const completeHandler = () => {
+    // Set completed todos
+    let isObjectExist = completedTodos.find((todo) => todo.id === id);
+    if (isObjectExist) {
+      setCompletedTodos(completedTodos.filter((todo) => todo.id !== id));
+    } else {
+      setCompletedTodos([...completedTodos, todoItem]);
+    }
     setTodos({
       ...todos,
-      [priority]: todos[priority as Priority].map((e) => {
+      [priority as Priority]: todos[priority as Priority].map((e) => {
         if (e.id === id) {
           return {
             ...e,
-            completed: !e.completed,
+            completed: !todoItem.completed,
           };
         }
         return e;
@@ -51,6 +57,13 @@ export const TodoItem: React.FC<TodoItemProps> = ({
   };
   //Add to favorite function
   const favoriteHandler = () => {
+    // Set favorited todos
+    let isObjectExist = favoriteTodos.find((todo) => todo.id === id);
+    if (isObjectExist) {
+      setFavoriteTodos(favoriteTodos.filter((todo) => todo.id !== id));
+    } else {
+      setFavoriteTodos([...favoriteTodos, todoItem]);
+    }
     setTodos({
       ...todos,
       [priority]: todos[priority as Priority].map((e) => {
@@ -86,6 +99,7 @@ export const TodoItem: React.FC<TodoItemProps> = ({
       <div className="leftside-wrapper">
         <input
           type="checkbox"
+          defaultChecked={completed}
           name=""
           id=""
           onClick={() => completeHandler()}
